@@ -2,13 +2,12 @@
 
 import requests
 import socket
-import time
 import subprocess
+import json
 
-master_ip = '127.0.0.1'
+master_ip = '192.168.242.93'
 bot_name = "aditya"
-bot_ip = "128.12.21.12"
-interval = 10
+bot_ip = "192.168.242.93"
 
 def initiate(master_ip, bot_name, bot_ip):
     print("[*] Registering bot to the API Server .... ")
@@ -19,16 +18,39 @@ def initiate(master_ip, bot_name, bot_ip):
         print("[-] Failed to register the Bot to the master server!")
         exit()
 
-def communicate_to_master(interval, master_ip):
-    json_data = 'Hello Master!'
-    while True:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        time.sleep(interval)
-        try:
-            sock.connect((master_ip, 4444))
-            sock.sendall(bytes(json_data,encoding="utf-8"))
+def data_collecter():
+    data_sheet = []
+    command = ['osqueryi', '--json', 'command']
+    queries = ['select * from cpu_time;']
+    for query in queries:
+        command[2] = query
+        result = subprocess.run(command, capture_output=True, text=True)
+        response = json.loads(result.stdout)
+        data_sheet.append(response)
 
-        finally:
-            sock.close()
+    return data_sheet
+
+def communicate_to_master(master_ip):
+    json_data = json.dumps(data_collecter())
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        sock.connect((master_ip, 4444))
+        sock.sendall(bytes(json_data,encoding="utf-8"))
+
+    finally:
+        sock.close()
 
 initiate(master_ip, bot_name, bot_ip)
+
+while True:
+    listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    listner.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)        
+    listner.bind((bot_ip, 5555))                                     
+    listner.listen(0)   
+    print("[+] Ready to accept connection from master .... ")                                                 
+    connection, address = listner.accept()                        
+    recieved_data = connection.recv(1024)
+    if recieved_data.decode() == "data request":
+        print("[*] Data request recieved, communication with master initiated.")
+        communicate_to_master(master_ip)
+        print("[+] Communication with master successful!")

