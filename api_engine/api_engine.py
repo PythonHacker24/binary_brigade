@@ -2,6 +2,7 @@
 
 from flask import Flask, request
 import socket
+import json
 
 app = Flask(__name__)
 
@@ -26,6 +27,12 @@ def trigger():
         sock.connect((bot_ip, 5555))
         sock.sendall(bytes("data request",encoding="utf-8"))
 
+@app.route('/')
+def test():
+    trigger()
+    data = listner(system_ip, 4444)
+    return data
+
 @app.route('/register_bot')
 def register_bot():
     bot_name = request.args.get('bot_name')
@@ -33,8 +40,6 @@ def register_bot():
     bot_dict[bot_name] = bot_ip
     return "200 OK"
     
-@app.route('/')
-def test():
-    trigger()
-    data = listner(system_ip, 4444)
-    return data
+@app.route('/bot_list')
+def bot_list():
+    return bot_dict

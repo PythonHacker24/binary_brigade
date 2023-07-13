@@ -6,7 +6,7 @@ import subprocess
 import json
 
 master_ip = '192.168.242.93'
-bot_name = "aditya"
+bot_name = "maverick"
 bot_ip = "192.168.242.93"
 
 def initiate(master_ip, bot_name, bot_ip):
@@ -19,7 +19,7 @@ def initiate(master_ip, bot_name, bot_ip):
         exit()
 
 def data_collecter():
-    data_sheet = []
+    data_sheet = [bot_name, bot_ip]
     command = ['osqueryi', '--json', 'command']
     queries = ['select * from cpu_time;']
     for query in queries:
