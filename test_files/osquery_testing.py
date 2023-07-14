@@ -39,9 +39,3 @@ import socket
 
 # print(data_collecter())
 
-bot_passphrase = "test"
-
-json = "{['value':'data request', 'passphrase':" + bot_passphrase + "]}"
-dict = json.loads(json)
-print(dict)
-print(type(dict))

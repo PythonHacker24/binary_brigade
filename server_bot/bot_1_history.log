@@ -1,0 +1,12 @@
+Bot was shut-down at: 2023-07-14 12:23:45.603085
+Bot was shut-down at: 2023-07-14 12:25:00.883988
+Bot was shut-down at: 2023-07-14 12:25:53.153007
+Bot was shut-down at: 2023-07-14 12:27:08.108443
+Bot was shut-down at: 2023-07-14 12:27:25.556042
+Bot was shut-down at: 2023-07-14 12:29:16.454828
+Bot was shut-down at: 2023-07-14 12:31:42.354850
+Data request recieved from master server at: 2023-07-14 12:31:47.931902
+["bot_1", "192.168.235.93", [{"core": "0", "guest": "0", "guest_nice": "0", "idle": "399436", "iowait": "466", "irq": "0", "nice": "11", "softirq": "2586", "steal": "0", "system": "5285", "user": "22158"}, {"core": "1", "guest": "0", "guest_nice": "0", "idle": "399377", "iowait": "387", "irq": "0", "nice": "27", "softirq": "738", "steal": "0", "system": "5037", "user": "22780"}, {"core": "2", "guest": "0", "guest_nice": "0", "idle": "403694", "iowait": "433", "irq": "0", "nice": "32", "softirq": "180", "steal": "0", "system": "4965", "user": "18522"}, {"core": "3", "guest": "0", "guest_nice": "0", "idle": "400092", "iowait": "470", "irq": "0", "nice": "33", "softirq": "89", "steal": "0", "system": "4966", "user": "21965"}, {"core": "4", "guest": "0", "guest_nice": "0", "idle": "399710", "iowait": "475", "irq": "0", "nice": "16", "softirq": "230", "steal": "0", "system": "5159", "user": "21731"}, {"core": "5", "guest": "0", "guest_nice": "0", "idle": "398248", "iowait": "470", "irq": "0", "nice": "16", "softirq": "32", "steal": "0", "system": "5138", "user": "21915"}, {"core": "6", "guest": "0", "guest_nice": "0", "idle": "402688", "iowait": "703", "irq": "0", "nice": "163", "softirq": "810", "steal": "0", "system": "4977", "user": "17847"}, {"core": "7", "guest": "0", "guest_nice": "0", "idle": "400898", "iowait": "568", "irq": "0", "nice": "28", "softirq": "20", "steal": "0", "system": "5254", "user": "20695"}]]
+
+Bot was shut-down at: 2023-07-14 12:32:32.359529
+Bot was shut-down at: 2023-07-14 12:32:46.806624

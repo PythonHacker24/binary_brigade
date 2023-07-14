@@ -62,6 +62,15 @@ def communicate_to_master(master_ip):
     finally:
         sock.close()
 
+def reliable_shutdown():
+    result = requests.get('http://127.0.0.1:5000/bot_disconnect?bot_name=' + bot_name)
+    if result.text == "200 OK":
+        print("[+] Bot has been sucessfully disconnected and shut down.")
+    else:
+        print("[-] Failed to disconnect with master server and proper shut-down.")
+    log_output("Bot was shut-down at: " + str(datetime.datetime.now()) + '\n')
+    exit()
+
 options = get_arguements()
 master_ip = options.master_ip
 bot_name = options.bot_name
@@ -74,28 +83,26 @@ log_file = bot_name + "_history.log"
 initiate(master_ip, bot_name, bot_ip, bot_passphrase)
 
 try:
-    while True:
-        listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        listner.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)        
-        listner.bind((bot_ip, 5555))                                     
-        listner.listen(0)   
-        print("[+] Ready to accept connection from master .... ")                                                 
-        connection, address = listner.accept()                        
-        recieved_data = connection.recv(1024)
-        if recieved_data.decode() == bot_passphrase:
-            print("[*] Data request recieved, communication with master initiated at: " + str(datetime.datetime.now()))
-            log_output("Data request recieved from master server at: " + str(datetime.datetime.now()) + '\n')
-            communicate_to_master(master_ip)
-            print("[+] Communication with master successful!\n")
-        else:
-            print("[+] Alert! Request without passphrase detected at: " + str(datetime.datetime.now()))
-            log_output("\nRequest without passphrase detected at: " + str(datetime.datetime.now()) + "\n\n")
+    try:
+        while True:
+            listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            listner.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)        
+            listner.bind((bot_ip, 5555))                                     
+            listner.listen(0)   
+            print("[+] Ready to accept connection from master .... ")                                                 
+            connection, address = listner.accept()                        
+            recieved_data = connection.recv(1024)
+            if recieved_data.decode() == bot_passphrase:
+                print("[*] Data request recieved, communication with master initiated at: " + str(datetime.datetime.now()))
+                log_output("Data request recieved from master server at: " + str(datetime.datetime.now()) + '\n')
+                communicate_to_master(master_ip)
+                print("[+] Communication with master successful!\n")
+            else:
+                print("[+] Alert! Request without passphrase detected at: " + str(datetime.datetime.now()))
+                log_output("\nRequest without passphrase detected at: " + str(datetime.datetime.now()) + "\n\n")
 
-except KeyboardInterrupt:
-    result = requests.get('http://127.0.0.1:5000/bot_disconnect?bot_name=' + bot_name)
-    if result.text == "200 OK":
-        print("[+] Bot has been sucessfully disconnected and shut down.")
-    else:
-        print("[-] Failed to disconnect with master server and proper shut-down.")
-    log_output("Bot was shut-down at: " + str(datetime.datetime.now()) + '\n')
-    exit()
+    except KeyboardInterrupt:
+        reliable_shutdown()
+except Exception as exception:
+    print("[-] Error occured!")
+    reliable_shutdown()
