@@ -16,18 +16,14 @@ import socket
 #             print(str(t) + " = " + str(i[t]))
 #         print("--------------------------")
 
-while True:
-    listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    listner.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)        
-    listner.bind(('192.168.242.93', 4444))                                     
-    listner.listen(0)                                                    
-    #print("[+] Waiting for incomming connections .... ")
-    connection, address = listner.accept()                          
-                                                                             
-    #print("[+] Connection recieved from " + str(address))
-
-    recieved_data = connection.recv(1024 * 100)
-    print(recieved_data.decode())
+# while True:
+#     listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     listner.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)        
+#     listner.bind(('192.168.242.93', 4444))                                     
+#     listner.listen(0)                                                    
+#     connection, address = listner.accept()                        
+#     recieved_data = connection.recv(1024 * 100)
+#     print(recieved_data.decode())
 
 # def data_collecter():
 #     data_sheet = []
@@ -42,3 +38,10 @@ while True:
 #     return data_sheet[]
 
 # print(data_collecter())
+
+bot_passphrase = "test"
+
+json = "{['value':'data request', 'passphrase':" + bot_passphrase + "]}"
+dict = json.loads(json)
+print(dict)
+print(type(dict))

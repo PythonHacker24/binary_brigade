@@ -6,10 +6,7 @@ import subprocess
 import json
 import datetime
 import optparse
-
-master_ip = '192.168.242.93'
-bot_name = "america"
-bot_ip = "192.168.242.93"
+import random
 
 def get_arguements():
 
@@ -33,9 +30,9 @@ def log_output(data):
     with open(log_file, 'a') as file:
         file.write(data)
 
-def initiate(master_ip, bot_name, bot_ip):
+def initiate(master_ip, bot_name, bot_ip, bot_passphrase):
     print("[*] Registering bot to the API Server .... ")
-    request = requests.get('http://127.0.0.1:5000/bot_register?bot_name=' + bot_name + '&bot_ip=' + bot_ip)
+    request = requests.get('http://127.0.0.1:5000/bot_register?bot_name=' + bot_name + '&bot_ip=' + bot_ip + '&bot_passphrase=' + bot_passphrase)
     if request.text == "200 OK":
         print("[+] Bot has been registered to the master server!\n")
     else:
@@ -65,8 +62,16 @@ def communicate_to_master(master_ip):
     finally:
         sock.close()
 
+options = get_arguements()
+master_ip = options.master_ip
+bot_name = options.bot_name
+bot_ip = options.bot_ip
+
+letters_domain = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+bot_passphrase = ''.join(random.choice(letters_domain) for i in range(10))
+
 log_file = bot_name + "_history.log"
-initiate(master_ip, bot_name, bot_ip)
+initiate(master_ip, bot_name, bot_ip, bot_passphrase)
 
 try:
     while True:
@@ -77,11 +82,14 @@ try:
         print("[+] Ready to accept connection from master .... ")                                                 
         connection, address = listner.accept()                        
         recieved_data = connection.recv(1024)
-        if recieved_data.decode() == "data request":
+        if recieved_data.decode() == bot_passphrase:
             print("[*] Data request recieved, communication with master initiated at: " + str(datetime.datetime.now()))
             log_output("Data request recieved from master server at: " + str(datetime.datetime.now()) + '\n')
             communicate_to_master(master_ip)
             print("[+] Communication with master successful!\n")
+        else:
+            print("[+] Alert! Request without passphrase detected at: " + str(datetime.datetime.now()))
+            log_output("\nRequest without passphrase detected at: " + str(datetime.datetime.now()) + "\n\n")
 
 except KeyboardInterrupt:
     result = requests.get('http://127.0.0.1:5000/bot_disconnect?bot_name=' + bot_name)

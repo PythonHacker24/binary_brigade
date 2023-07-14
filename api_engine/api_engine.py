@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 bot_dict = {}
 
-system_ip = '192.168.242.93'
+system_ip = '192.168.235.93'
 
 def listner(system_ip, system_port):
     listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,10 +23,11 @@ def listner(system_ip, system_port):
 def trigger():
     bot_names = bot_dict.keys()
     for bot in bot_names:
-        bot_ip = bot_dict[bot]
+        bot_ip = bot_dict[bot][0]
+        bot_passphrase = bot_dict[bot][1]
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((bot_ip, 5555))
-        sock.sendall(bytes("data request",encoding="utf-8"))
+        sock.sendall(bytes(f"{bot_passphrase}",encoding="utf-8"))
 
 @app.route('/')
 def test():
@@ -38,7 +39,8 @@ def test():
 def register_bot():
     bot_name = request.args.get('bot_name')
     bot_ip = request.args.get('bot_ip')
-    bot_dict[bot_name] = bot_ip
+    bot_passphrase = request.args.get('bot_passphrase')
+    bot_dict[bot_name] = [bot_ip, bot_passphrase]
     return "200 OK"
     
 @app.route('/bot_list')
