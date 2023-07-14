@@ -27,7 +27,7 @@ def trigger(bot_ip, bot_passphrase):
 
 @app.route('/')
 def test():
-    data_package = ""
+    data_package = []
     bot_names = bot_dict.keys()
     print(bot_names)
     for bot in bot_names:
@@ -39,7 +39,7 @@ def test():
         except:
             data = json.dumps([bot + ' failed to fetch data'])
             pass
-        data_package = data_package + data
+        data_package.append(json.loads(data))
     return data_package
 
 @app.route('/bot_register')
