@@ -42,7 +42,7 @@ def initiate(master_ip, bot_name, bot_ip, bot_passphrase):
 def data_collecter():
     data_sheet = [bot_name, bot_ip]
     command = ['osqueryi', '--json', 'select', '*', 'from', 'command']
-    tables = ['cpu_time', 'users']
+    tables = ['cpu_time;', 'users;']
     for table in tables:
         try:
             command[5] = table
