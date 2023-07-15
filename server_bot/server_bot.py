@@ -41,11 +41,11 @@ def initiate(master_ip, bot_name, bot_ip, bot_passphrase):
 
 def data_collecter():
     data_sheet = [bot_name, bot_ip]
-    command = ['osqueryi', '--json', 'command']
-    queries = ['select * from cpu_time; select * from users;']
-    for query in queries:
+    command = ['osqueryi', '--json', 'select', '*', 'from', 'command']
+    tables = ['cpu_time', 'users']
+    for table in tables:
         try:
-            command[2] = query
+            command[5] = table
             result = subprocess.run(command, capture_output=True, text=True)
             response = json.loads(result.stdout)
             data_sheet.append(response)
