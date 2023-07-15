@@ -45,8 +45,7 @@ def data_collecter():
     tables = ['cpu_time;', 'users;']
     for table in tables:
         try:
-            command[5] = table
-            print(command)
+            command[5] = "\"" + table + "\""
             result = subprocess.run(command, capture_output=True, text=True)
             response = json.loads(result.stdout)
             data_sheet.append(response)
