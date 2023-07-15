@@ -42,7 +42,16 @@ def initiate(master_ip, bot_name, bot_ip, bot_passphrase):
 def data_collecter():
     data_sheet = [bot_name, bot_ip]
     command = ['osqueryi', '--json', 'command']
-    queries = ['select * from cpu_time;', 'select * from users;']
+    queries = ['select * from cpu_time;',
+               'select * from users;'
+               'select * from crontab',
+               'select * from shell_history',
+               'select * from startup_items',
+               'select * from processes',
+               'select * from known_hosts',
+               'select * from listening_ports',
+               'select * from usb_devices']
+    
     for query in queries:
         try:
             command[2] = query
