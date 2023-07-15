@@ -95,24 +95,22 @@ initiate(master_ip, bot_name, bot_ip, bot_passphrase)
 
 try:
     while True:
-        try:
-            listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            listner.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)        
-            listner.bind((bot_ip, 5555))                                     
-            listner.listen(0)   
-            print("[+] Ready to accept connection from master .... ")                                                 
-            connection, address = listner.accept()                        
-            recieved_data = connection.recv(1024)
-            if recieved_data.decode() == bot_passphrase:
-                print("[*] Data request recieved, communication with master initiated at: " + str(datetime.datetime.now()))
-                log_output("Data request recieved from master server at: " + str(datetime.datetime.now()) + '\n')
-                communicate_to_master(master_ip)
-                print("[+] Communication with master successful!\n")
-            else:
-                print("[+] Alert! Request without passphrase detected at: " + str(datetime.datetime.now()))
-                log_output("\nRequest without passphrase detected at: " + str(datetime.datetime.now()) + "\n\n")
-        except Exception:
-            pass
+        listner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        listner.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)        
+        listner.bind((bot_ip, 5555))                                     
+        listner.listen(0)   
+        print("[+] Ready to accept connection from master .... ")                                                 
+        connection, address = listner.accept()                        
+        recieved_data = connection.recv(1024)
+        if recieved_data.decode() == bot_passphrase:
+            print("[*] Data request recieved, communication with master initiated at: " + str(datetime.datetime.now()))
+            log_output("Data request recieved from master server at: " + str(datetime.datetime.now()) + '\n')
+            communicate_to_master(master_ip)
+            print("[+] Communication with master successful!\n")
+        else:
+            print("[+] Alert! Request without passphrase detected at: " + str(datetime.datetime.now()))
+            log_output("\nRequest without passphrase detected at: " + str(datetime.datetime.now()) + "\n\n")
+        
 
 except KeyboardInterrupt:
     reliable_shutdown(master_ip)
