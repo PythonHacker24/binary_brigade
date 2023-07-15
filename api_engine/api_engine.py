@@ -29,7 +29,6 @@ def trigger(bot_ip, bot_passphrase):
 def test():
     data_package = []
     bot_names = bot_dict.keys()
-    print(bot_names)
     for bot in bot_names:
         bot_ip = bot_dict[bot][0]
         bot_passphrase = bot_dict[bot][1]
