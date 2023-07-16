@@ -57,12 +57,14 @@ def data_collecter():
     for query in queries:
         try:
             command[2] = query
+            print("Printing command: ")
+            print(command)
             result = subprocess.run(command, capture_output=True, text=True)
             response = json.loads(result.stdout)
             data_sheet.append(response)
         except Exception:
             pass
-
+    print(data_sheet)
     return data_sheet
 
 def communicate_to_master(master_ip):
