@@ -43,7 +43,7 @@ def data_collecter():
     data_sheet = [bot_name, bot_ip]
     command = ['osqueryi', '--json', 'command']
     queries = ['select * from cpu_time;',
-               'select * from users;'
+               'select * from users;',
                'select * from crontab',
                'select * from shell_history',
                'select * from startup_items',
