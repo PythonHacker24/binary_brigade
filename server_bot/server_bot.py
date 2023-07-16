@@ -46,8 +46,8 @@ def data_collecter():
         'select * from cpu_time;',
                'select * from users;',
                 'select * from crontab',
-                'select * from shell_history'
-            #    'select * from startup_items',
+                'select * from shell_history',
+                'select * from startup_items'
             #    'select * from processes',
             #    'select * from known_hosts',
             #    'select * from listening_ports',
