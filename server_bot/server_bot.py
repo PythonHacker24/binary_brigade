@@ -7,6 +7,7 @@ import json
 import datetime
 import optparse
 import random
+import gzip
 
 def get_arguements():
 
@@ -73,7 +74,7 @@ def communicate_to_master(master_ip):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         sock.connect((master_ip, 4444))
-        sock.sendall(bytes(json_data,encoding="utf-8"))
+        sock.sendall(gzip.encode(bytes(json_data,encoding="utf-8")))
     finally:
         sock.close()
 
