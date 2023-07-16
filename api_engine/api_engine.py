@@ -18,7 +18,7 @@ def listner(system_ip, system_port):
     listner.listen(0)                                                    
     connection, address = listner.accept()                        
     recieved_data = connection.recv(1024 * 100)
-    return recieved_data.read().decode('utf8', errors='ignore')
+    return recieved_data.decode('utf8')
 
 def trigger(bot_ip, bot_passphrase):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
