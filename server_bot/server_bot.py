@@ -44,8 +44,8 @@ def data_collecter():
     command = ['osqueryi', '--json', 'command']
     queries = [
         'select * from cpu_time;',
-               'select * from users;'
-            #    'select * from crontab',
+               'select * from users;',
+                'select * from crontab',
             #    'select * from shell_history',
             #    'select * from startup_items',
             #    'select * from processes',
