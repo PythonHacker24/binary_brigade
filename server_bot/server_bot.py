@@ -72,6 +72,7 @@ def communicate_to_master(master_ip):
     try:
         sock.connect((master_ip, 4444))
         sock.sendall(gzip.encode(bytes(json_data,encoding="utf-8")))
+        print(gzip.encode(bytes(json_data,encoding="utf-8")))
     finally:
         sock.close()
 
