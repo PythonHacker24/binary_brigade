@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: master-ubuntu
+  namespace: master
+  labels:
+    app: master-ubuntu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: master-ubuntu
+  template:
+    metadata:
+      labels:
+        app: master-ubuntu
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu:latest
+        ports:
+        - containerPort: 80
+        - containerPort: 5555
+        - containerPort: 4444
+        resources:
+          requests:
+            cpu: 30m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+
